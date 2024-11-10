@@ -12,12 +12,22 @@ def create_workflow(username, schema):
         INSERT INTO workflows (workflow_id, username, workflow_schema) VALUES (%s, %s, %s) 
     """
 
-    cursor.execute(query, (workflow_id, username, json.dumps(schema)))
-    connection.commit()
+    try:
+        # Execute the insertion query
+        cursor.execute(query, (workflow_id, username, json.dumps(schema)))
+        connection.commit()
 
-    cursor.execute("SELECT * FROM workflows WHERE workflow_id = %s", (workflow_id))
-    res = cursor.fetchone()
-    schema = json.loads(res["workflow_schema"])
-    cursor.close()
+        # Retrieve the inserted record to confirm
+        cursor.execute("SELECT * FROM workflows WHERE workflow_id = %s", (workflow_id,))
+        res = cursor.fetchone()
+
+        # Parse the schema back into JSON if necessary
+        schema = json.loads(res["workflow_schema"])
+    except Exception as e:
+        connection.rollback()
+        print(f"Database error: {e}")
+        return {"error": "Database error occurred"}
+    finally:
+        cursor.close()
 
     return {"workflow_id": workflow_id, "username": username, "workflow_schema": schema}

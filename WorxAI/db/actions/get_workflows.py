@@ -2,7 +2,7 @@ from ..config import connection
 import pymysql
 
 
-def get_workflows(email):
+def get_user_workflows(email):
     cursor = connection.cursor()
 
     try:

@@ -6,7 +6,7 @@ from django.http import JsonResponse
 # DataBase Actions
 from WorxAI.db.actions.create_workflow import create_workflow
 from WorxAI.db.actions.user_signup import create_or_update_user
-from WorxAI.db.actions.get_workflows import get_workflows
+from WorxAI.db.actions.get_workflows import get_user_workflows
 from WorxAI.db.actions.get_workflow import get_workflow
 
 # Utilies
@@ -41,7 +41,7 @@ def workflow_execution(request):
             nodes = json.loads(workflow["workflow_schema"]).get("nodes")
             if nodes:
                 flow = node_flow_in_order(nodes)
-                response = flow_execution(nodes, input)
+                response = flow_execution(flow, input)
                 return JsonResponse({"response": response})
 
         else:
@@ -59,11 +59,12 @@ def signup(request):
         return JsonResponse({"user_details": res})
 
 
+@csrf_exempt
 def get_workflows(request):
     if request.method == "POST":
         data = json.loads(request.body.decode("utf-8"))
         email = data.get("email")
 
-        workflows = get_workflows()
+        workflows = get_user_workflows(email=email)
 
         return JsonResponse(workflows)

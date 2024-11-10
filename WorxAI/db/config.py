@@ -21,41 +21,41 @@ connection = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor,
 )
 
-try:
-    connection = pymysql.connect(
-        host=ENDPOINT,
-        user=USER,
-        password=PASSWORD,
-        database=DATABASE,
-        charset="utf8mb4",
-        cursorclass=pymysql.cursors.DictCursor,
-    )
+# try:
+#     connection = pymysql.connect(
+#         host=ENDPOINT,
+#         user=USER,
+#         password=PASSWORD,
+#         database=DATABASE,
+#         charset="utf8mb4",
+#         cursorclass=pymysql.cursors.DictCursor,
+#     )
 
-    print("Connection Established")
+#     print("Connection Established")
 
-    cursor = connection.cursor()
+#     cursor = connection.cursor()
 
-    # Define the SQL statement for creating a table
+#     # Define the SQL statement for creating a table
 
-    # Execute the query
-    cursor.execute(
-        """
-    CREATE TABLE IF NOT EXISTS users(
-        user_id INT AUTO_INCREMENT PRIMARY KEY,
-        email VARCHAR(100) NOT NULL,
-        api_key VARCHAR(150) NOT NULL
-    );
-"""
-    )
-    # data = cursor.fetchmany()
+#     # Execute the query
+#     cursor.execute(
+#         """
+#     CREATE TABLE IF NOT EXISTS users(
+#         user_id INT AUTO_INCREMENT PRIMARY KEY,
+#         email VARCHAR(100) NOT NULL,
+#         api_key VARCHAR(150) NOT NULL
+#     );
+# """
+#     )
+#     # data = cursor.fetchmany()
 
-    # print(data)
+#     # print(data)
 
-    # Commit the transaction
-    connection.commit()
+#     # Commit the transaction
+#     connection.commit()
 
-except pymysql.MySQLError as e:
-    print(e)
+# except pymysql.MySQLError as e:
+#     print(e)
 # finally:
 
 #     if connection:

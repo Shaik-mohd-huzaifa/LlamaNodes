@@ -1,6 +1,7 @@
 from ..Services.LLM_Service import LLM
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema import StrOutputParser
+from ..Services.Lambda_Service import call_lambda
 
 
 def llm_configuration_and_execution(message, parameters, user_input):
@@ -28,6 +29,7 @@ def llm_configuration_and_execution(message, parameters, user_input):
 def flow_execution(nodes, input_data):
     # Initialize dynamic_input as a dictionary with `input_data` values
     dynamic_input = dict(input_data)
+    final_output = ""
 
     for node in nodes:
         if node["node_type"] == "LLM":
@@ -45,6 +47,7 @@ def flow_execution(nodes, input_data):
 
             # Store the output back in `dynamic_input`
             dynamic_input[output_variable] = output
+            final_output = output
 
     # Return the final state of dynamic_input
-    return dynamic_input
+    return final_output
